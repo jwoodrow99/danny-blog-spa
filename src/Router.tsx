@@ -5,6 +5,7 @@ import { Route, Routes } from '@solidjs/router';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import BlogPage from './pages/BlogPage';
+import UserPage from './pages/UserPage';
 
 const AppRouter: Component = () => {
 	return (
@@ -13,6 +14,7 @@ const AppRouter: Component = () => {
 				<Route path="/" component={HomePage} />
 				<Route path="/login" component={LoginPage} />
 				<Route path="/blog/:id" component={BlogPage} />
+				<Route path="/user/:id" component={UserPage} />
 			</Routes>
 		</>
 	);

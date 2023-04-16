@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
-import { useParams } from '@solidjs/router';
+import { useParams, A as RouteLink } from '@solidjs/router';
 
 import http from '../http';
 
@@ -29,7 +29,11 @@ const BlogPage: Component<any> = (props) => {
 			<div class="flex flex-col bg-zinc-800 p-10 rounded">
 				<div class="text-3xl font-medium">{blog().title}</div>
 				<div class="flex flex-row space-x-5 mt-3">
-					<div class="text-xs">{blog().user?.email}</div>
+					<div class="text-xs">
+						<RouteLink href={`/user/${blog().user?.id}`}>
+							{blog().user?.email}
+						</RouteLink>
+					</div>
 					<div class="text-xs text-zinc-300	">
 						{new Date(blog().created_at).toDateString()}
 					</div>

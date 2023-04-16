@@ -13,7 +13,11 @@ const BlogPostListItemComponent: Component<any> = (props) => {
 			<div id={props.key} class="flex flex-col bg-zinc-800 px-8 py-5 rounded">
 				<div class="text-3xl font-medium">{props.blog.title}</div>
 				<div class="flex flex-row space-x-5 mt-1">
-					<div class="text-xs">{props.blog.user.email}</div>
+					<div class="text-xs">
+						<RouteLink href={`/user/${props.blog.user.id}`}>
+							{props.blog.user.email}
+						</RouteLink>
+					</div>
 					<div class="text-xs text-zinc-300	">
 						{new Date(props.blog.created_at).toDateString()}
 					</div>
