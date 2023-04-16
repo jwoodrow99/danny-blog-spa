@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
 import NewBlogPage from './pages/NewBlogPage';
+import UpdateBlogPage from './pages/UpdateBlogPage';
 
 const AppRouter: Component = () => {
 	return (
@@ -16,6 +17,7 @@ const AppRouter: Component = () => {
 				<Route path="/login" component={LoginPage} />
 				<Route path="/blog/show/:id" component={BlogPage} />
 				<Route path="/blog/new" component={NewBlogPage} />
+				<Route path="/blog/update/:id" component={UpdateBlogPage} />
 				<Route path="/user/:id" component={UserPage} />
 			</Routes>
 		</>
