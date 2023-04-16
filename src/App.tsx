@@ -34,9 +34,14 @@ const App: Component = () => {
 						<nav class="w-full flex flex-row justify-between">
 							<div class="flex flex-row space-x-3">
 								{authenticated() && (
-									<RouteLink class="hover:text-zinc-300" href="/">
-										Home
-									</RouteLink>
+									<>
+										<RouteLink class="hover:text-zinc-300" href="/">
+											Home
+										</RouteLink>
+										<RouteLink class="hover:text-zinc-300" href="/new_blog">
+											New Blog
+										</RouteLink>
+									</>
 								)}
 							</div>
 							<div class="flex flex-row space-x-3">

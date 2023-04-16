@@ -14,7 +14,7 @@ const HomePage: Component = () => {
 		console.log('Render: HomePage');
 
 		http
-			.get('/blog')
+			.get('/blog', { params: { order_by: 'created_at:desc' } })
 			.then((response) => {
 				setBlogs(response.data.blogs);
 			})
@@ -26,7 +26,9 @@ const HomePage: Component = () => {
 
 	const searchBlogs = () => {
 		http
-			.get('/blog', { params: { search: `title:${search()}` } })
+			.get('/blog', {
+				params: { search: `title:${search()}`, order_by: 'created_at:desc' },
+			})
 			.then((response) => {
 				setBlogs(response.data.blogs);
 			})

@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
+import NewBlogPage from './pages/NewBlogPage';
 
 const AppRouter: Component = () => {
 	return (
@@ -14,6 +15,7 @@ const AppRouter: Component = () => {
 				<Route path="/" component={HomePage} />
 				<Route path="/login" component={LoginPage} />
 				<Route path="/blog/:id" component={BlogPage} />
+				<Route path="/new_blog" component={NewBlogPage} />
 				<Route path="/user/:id" component={UserPage} />
 			</Routes>
 		</>

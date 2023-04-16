@@ -15,7 +15,7 @@ const UserPage: Component<any> = (props) => {
 	createEffect(() => {
 		console.log('Render: UserPage');
 		http
-			.get(`/user/${params.id}`)
+			.get(`/user/${params.id}`, { params: { order_by: 'created_at:desc' } })
 			.then((response) => {
 				setUser(response.data.user);
 			})
@@ -27,7 +27,9 @@ const UserPage: Component<any> = (props) => {
 
 	createEffect(() => {
 		http
-			.get(`/blog`, { params: { search: `user_id:${user().id}` } })
+			.get(`/blog`, {
+				params: { search: `user_id:${user().id}`, order_by: 'created_at:desc' },
+			})
 			.then((response) => {
 				setBlogs(response.data.blogs);
 			})
