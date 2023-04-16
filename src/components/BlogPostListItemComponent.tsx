@@ -14,7 +14,10 @@ const BlogPostListItemComponent: Component<any> = (props) => {
 				<div class="text-3xl font-medium">{props.blog.title}</div>
 				<div class="flex flex-row space-x-5 mt-1">
 					<div class="text-xs">
-						<RouteLink href={`/user/${props.blog.user.id}`}>
+						<RouteLink
+							class="hover:text-zinc-300"
+							href={`/user/${props.blog.user.id}`}
+						>
 							{props.blog.user.email}
 						</RouteLink>
 					</div>

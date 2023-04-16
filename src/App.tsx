@@ -33,12 +33,21 @@ const App: Component = () => {
 					<div class="h-full w-full px-10 flex flex-row justify-center items-center">
 						<nav class="w-full flex flex-row justify-between">
 							<div class="flex flex-row space-x-3">
-								<RouteLink href="/">Home</RouteLink>
+								{authenticated() && (
+									<RouteLink class="hover:text-zinc-300" href="/">
+										Home
+									</RouteLink>
+								)}
 							</div>
 							<div class="flex flex-row space-x-3">
-								{!authenticated() && <RouteLink href="/login">Login</RouteLink>}
+								{!authenticated() && (
+									<RouteLink class="hover:text-zinc-300" href="/login">
+										Login
+									</RouteLink>
+								)}
 								{authenticated() && (
 									<button
+										class="hover:text-zinc-300"
 										type="button"
 										onclick={() => {
 											logout();

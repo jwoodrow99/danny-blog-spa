@@ -30,7 +30,10 @@ const BlogPage: Component<any> = (props) => {
 				<div class="text-3xl font-medium">{blog().title}</div>
 				<div class="flex flex-row space-x-5 mt-3">
 					<div class="text-xs">
-						<RouteLink href={`/user/${blog().user?.id}`}>
+						<RouteLink
+							class="hover:text-zinc-300"
+							href={`/user/${blog().user?.id}`}
+						>
 							{blog().user?.email}
 						</RouteLink>
 					</div>
