@@ -38,7 +38,7 @@ const App: Component = () => {
 										<RouteLink class="hover:text-zinc-300" href="/">
 											Home
 										</RouteLink>
-										<RouteLink class="hover:text-zinc-300" href="/new_blog">
+										<RouteLink class="hover:text-zinc-300" href="/blog/new">
 											New Blog
 										</RouteLink>
 									</>

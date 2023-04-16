@@ -24,7 +24,7 @@ const NewBlogPage: Component<any> = (props) => {
 				article: article(),
 			})
 			.then((response: any) => {
-				navigate(`/blog/${response.data.blog.id}`);
+				navigate(`/blog/show/${response.data.blog.id}`);
 			})
 			.catch((error) => {
 				console.log(error.response.status);

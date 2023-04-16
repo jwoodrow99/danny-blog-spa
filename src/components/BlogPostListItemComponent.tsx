@@ -28,7 +28,7 @@ const BlogPostListItemComponent: Component<any> = (props) => {
 				<div class="mt-2">{props.blog.article.substr(0, 90)} ...</div>
 				<div class="mt-2">
 					<RouteLink
-						href={`/blog/${props.blog.id}`}
+						href={`/blog/show/${props.blog.id}`}
 						class="hover:text-zinc-300"
 					>
 						Read more...

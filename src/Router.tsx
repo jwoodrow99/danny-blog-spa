@@ -14,8 +14,8 @@ const AppRouter: Component = () => {
 			<Routes>
 				<Route path="/" component={HomePage} />
 				<Route path="/login" component={LoginPage} />
-				<Route path="/blog/:id" component={BlogPage} />
-				<Route path="/new_blog" component={NewBlogPage} />
+				<Route path="/blog/show/:id" component={BlogPage} />
+				<Route path="/blog/new" component={NewBlogPage} />
 				<Route path="/user/:id" component={UserPage} />
 			</Routes>
 		</>
