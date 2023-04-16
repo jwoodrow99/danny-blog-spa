@@ -1,6 +1,9 @@
 import type { Component } from 'solid-js';
-import { createSignal, createEffect } from 'solid-js';
+import { createSignal, createEffect, useContext } from 'solid-js';
 import { useParams, A as RouteLink } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
+
+import { GlobalContext } from '../GlobalContext';
 
 import http from '../http';
 
@@ -8,6 +11,9 @@ import styles from './BlogPage.module.css';
 
 const BlogPage: Component<any> = (props) => {
 	const params = useParams();
+	const navigate = useNavigate();
+	const { authenticated, setAuthenticated, user, setUser }: any =
+		useContext(GlobalContext);
 	const [blog, setBlog]: any = createSignal({});
 
 	createEffect(() => {
@@ -24,10 +30,34 @@ const BlogPage: Component<any> = (props) => {
 			});
 	});
 
+	const destroy = () => {
+		http
+			.delete(`/blog/${blog().id}`)
+			.then((response) => {
+				navigate(`/user/${user()?.id}`);
+			})
+			.catch((error) => {
+				console.log(error.response.status);
+				console.log(error.response.data);
+			});
+	};
+
 	return (
 		<>
 			<div class="flex flex-col bg-zinc-800 p-10 rounded">
-				<div class="text-3xl font-medium">{blog().title}</div>
+				<div class="flex flex-row justify-between	">
+					<div class="text-3xl font-medium">{blog().title}</div>
+					{user()?.id == blog().user_id && (
+						<button
+							class="hover:text-zinc-300"
+							onclick={() => {
+								destroy();
+							}}
+						>
+							delete
+						</button>
+					)}
+				</div>
 				<div class="flex flex-row space-x-5 mt-3">
 					<div class="text-xs">
 						<RouteLink

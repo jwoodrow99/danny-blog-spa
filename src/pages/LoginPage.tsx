@@ -9,7 +9,8 @@ import http from '../http';
 import styles from './LoginPage.module.css';
 
 const LoginPage: Component = () => {
-	const { authenticated, setAuthenticated }: any = useContext(GlobalContext);
+	const { authenticated, setAuthenticated, user, setUser }: any =
+		useContext(GlobalContext);
 	const [email, setEmail] = createSignal('');
 	const [password, setPassword] = createSignal('');
 
@@ -28,6 +29,10 @@ const LoginPage: Component = () => {
 			.then((response) => {
 				localStorage.setItem('access_token', response.data.access_token);
 				setAuthenticated(true);
+
+				localStorage.setItem('user', JSON.stringify(response.data.user));
+				setUser(response.data.user);
+
 				navigate('/');
 			})
 			.catch((error) => {

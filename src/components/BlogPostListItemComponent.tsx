@@ -1,17 +1,30 @@
 import type { Component } from 'solid-js';
-import { createSignal, createEffect } from 'solid-js';
+import { createSignal, createEffect, useContext } from 'solid-js';
 import { A as RouteLink } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
+
+import { GlobalContext } from '../GlobalContext';
+
+import http from '../http';
 
 import styles from './BlogPostListItemComponent.module.css';
 
 const BlogPostListItemComponent: Component<any> = (props) => {
+	const navigate = useNavigate();
+
+	const { authenticated, setAuthenticated, user, setUser }: any =
+		useContext(GlobalContext);
+
 	createEffect(() => {
 		console.log('Render: BlogPostListItemComponent');
 	});
+
 	return (
 		<>
 			<div id={props.key} class="flex flex-col bg-zinc-800 px-8 py-5 rounded">
-				<div class="text-3xl font-medium">{props.blog.title}</div>
+				<div class="flex flex-row justify-between	">
+					<div class="text-3xl font-medium">{props.blog.title}</div>
+				</div>
 				<div class="flex flex-row space-x-5 mt-1">
 					<div class="text-xs">
 						<RouteLink

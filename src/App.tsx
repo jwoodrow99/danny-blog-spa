@@ -7,14 +7,17 @@ import Router from './Router';
 
 const App: Component = () => {
 	const [authenticated, setAuthenticated]: any = createSignal(false);
+	const [user, setUser]: any = createSignal(false);
 
 	const navigate = useNavigate();
 
 	createEffect(() => {
 		console.log('Render: App');
 		const accessToken = localStorage.getItem('access_token');
+		const localStorageUser: any = localStorage.getItem('user');
 		if (accessToken) {
 			setAuthenticated(true);
+			setUser(JSON.parse(localStorageUser));
 		} else {
 			navigate('/login');
 		}
@@ -28,7 +31,9 @@ const App: Component = () => {
 
 	return (
 		<>
-			<GlobalContext.Provider value={{ authenticated, setAuthenticated }}>
+			<GlobalContext.Provider
+				value={{ authenticated, setAuthenticated, user, setUser }}
+			>
 				<header class="h-16 bg-zinc-900	text-white">
 					<div class="h-full w-full px-10 flex flex-row justify-center items-center">
 						<nav class="w-full flex flex-row justify-between">
@@ -48,6 +53,14 @@ const App: Component = () => {
 								{!authenticated() && (
 									<RouteLink class="hover:text-zinc-300" href="/login">
 										Login
+									</RouteLink>
+								)}
+								{authenticated() && (
+									<RouteLink
+										class="hover:text-zinc-300"
+										href={`/user/${user().id}`}
+									>
+										{user().email}
 									</RouteLink>
 								)}
 								{authenticated() && (
