@@ -10,7 +10,7 @@ const LoginPage: Component = () => {
 	const [password, setPassword] = createSignal('');
 
 	createEffect(() => {
-		console.log('LoginPage');
+		console.log('Render: LoginPage');
 	});
 
 	const login = () => {
