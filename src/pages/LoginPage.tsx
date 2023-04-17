@@ -1,6 +1,7 @@
 import type { Component } from 'solid-js';
 import { createSignal, createEffect, useContext } from 'solid-js';
 import { GlobalContext } from '../GlobalContext';
+import { useNavigate } from '@solidjs/router';
 
 import http from '../http';
 
@@ -11,6 +12,8 @@ const LoginPage: Component = () => {
 	const [email, setEmail] = createSignal('');
 	const [password, setPassword] = createSignal('');
 
+	const navigate = useNavigate();
+
 	const login = () => {
 		http
 			.post('/auth/login/', {
@@ -20,9 +23,9 @@ const LoginPage: Component = () => {
 			.then((response) => {
 				localStorage.setItem('access_token', response.data.access_token);
 				setAuthenticated(true);
-				// localStorage.setItem('user', JSON.stringify(response.data.user));
-				// setUser(response.data.user);
-				// navigate('/');
+				localStorage.setItem('user', JSON.stringify(response.data.user));
+				setUser(response.data.user);
+				navigate('/');
 			})
 			.catch((error) => {
 				console.log(error.response.status);

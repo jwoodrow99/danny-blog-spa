@@ -1,6 +1,7 @@
 import type { Component } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
 import { A as RouteLink } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
@@ -13,6 +14,26 @@ const App: Component = () => {
 	const [authenticated, setAuthenticated]: any = createSignal(false);
 	const [user, setUser]: any = createSignal(null);
 
+	const navigate = useNavigate();
+
+	createEffect(() => {
+		const accessToken: any = localStorage.getItem('access_token');
+		const localStorageUser: any = localStorage.getItem('user');
+		if (accessToken && localStorageUser) {
+			setAuthenticated(true);
+			setUser(JSON.parse(localStorageUser));
+		}
+		setAuthenticated(false);
+		setUser(null);
+	});
+
+	const logout = () => {
+		setAuthenticated(false);
+		setUser(null);
+		localStorage.removeItem('access_token');
+		localStorage.removeItem('user');
+	};
+
 	return (
 		<>
 			<GlobalContext.Provider
@@ -22,7 +43,17 @@ const App: Component = () => {
 					<header class="h-16 flex flex-col justify-center content-center">
 						<nav class="flex flex-row space-x-5 mx-auto">
 							<RouteLink href="/">Home</RouteLink>
-							<RouteLink href="/auth/login">Login</RouteLink>
+							{!authenticated() ? (
+								<RouteLink href="/auth/login">Login</RouteLink>
+							) : (
+								<button
+									onClick={() => {
+										logout();
+									}}
+								>
+									Logout
+								</button>
+							)}
 						</nav>
 					</header>
 
