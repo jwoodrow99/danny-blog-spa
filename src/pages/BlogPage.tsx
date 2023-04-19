@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
-import { createSignal, createEffect, useContext } from 'solid-js';
+import { createSignal, createEffect, useContext, For } from 'solid-js';
 import { useParams, A as RouteLink } from '@solidjs/router';
 import { useNavigate } from '@solidjs/router';
 import { GlobalContext } from '../GlobalContext';
@@ -20,6 +20,7 @@ const BlogPage: Component<any> = (props) => {
 	const [likesCount, setLikesCount] = createSignal(0);
 	const [followed, setFollowed] = createSignal(0);
 	const [followCount, setFollowCount] = createSignal(0);
+	const [comment, setComment]: any = createSignal('');
 
 	createEffect(() => {
 		console.log('Render: BlogPage');
@@ -126,7 +127,17 @@ const BlogPage: Component<any> = (props) => {
 	};
 
 	const newComment = () => {
-		console.log('new comment');
+		http
+			.post(`/blog/${blog().id}/comment`, {
+				text: comment(),
+			})
+			.then((response) => {
+				setComments([response.data.comment, ...comments()]);
+				setComment('');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (
@@ -213,10 +224,32 @@ const BlogPage: Component<any> = (props) => {
 				</div>
 				<div class="mt-10">{blog().article}</div>
 				<div class="flex flex-col space-y-5 mt-10">
-					{comments().map((comment: any) => {
-						return <BlogCommentListItemComponent comment={comment} />;
-						//return <div class="bg-zinc-900 p-5 rounded">{comment.text}</div>;
-					})}
+					<div>
+						<div class="mt-5">
+							<textarea
+								class="text-black p-2 rounded w-full h-[10vh]"
+								placeholder="New comment here..."
+								value={comment()}
+								onChange={(e) => setComment(e.currentTarget.value)}
+							></textarea>
+						</div>
+						<div class="mt-5">
+							<button
+								class="btn-primary px-5 py-2 w-full"
+								type="button"
+								onclick={() => {
+									newComment();
+								}}
+							>
+								Save
+							</button>
+						</div>
+					</div>
+					<For each={comments()}>
+						{(comment) => {
+							return <BlogCommentListItemComponent comment={comment} />;
+						}}
+					</For>
 				</div>
 			</div>
 		</>
