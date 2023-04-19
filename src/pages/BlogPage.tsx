@@ -2,10 +2,10 @@ import type { Component } from 'solid-js';
 import { createSignal, createEffect, useContext } from 'solid-js';
 import { useParams, A as RouteLink } from '@solidjs/router';
 import { useNavigate } from '@solidjs/router';
-
 import { GlobalContext } from '../GlobalContext';
-
 import http from '../http';
+
+import BlogCommentListItemComponent from '../components/BlogCommentListItemComponent';
 
 import styles from './BlogPage.module.css';
 
@@ -15,8 +15,11 @@ const BlogPage: Component<any> = (props) => {
 	const { authenticated, setAuthenticated, user, setUser }: any =
 		useContext(GlobalContext);
 	const [blog, setBlog]: any = createSignal({});
+	const [comments, setComments]: any = createSignal([]);
 	const [liked, setLiked] = createSignal(0);
 	const [likesCount, setLikesCount] = createSignal(0);
+	const [followed, setFollowed] = createSignal(0);
+	const [followCount, setFollowCount] = createSignal(0);
 
 	createEffect(() => {
 		console.log('Render: BlogPage');
@@ -24,14 +27,17 @@ const BlogPage: Component<any> = (props) => {
 		http
 			.get(`/blog/${params.id}`)
 			.then((response) => {
-				console.log(response);
 				setBlog(response.data.blog);
+				setComments(response.data.blog.comments);
+
 				setLiked(response.data.blog.liked_by_me);
 				setLikesCount(response.data.blog.likes_count);
+
+				setFollowed(response.data.blog.user.followed_by_me);
+				setFollowCount(response.data.blog.user.followed_by_count);
 			})
 			.catch((error) => {
-				console.log(error.response.status);
-				console.log(error.response.data);
+				console.log(error);
 			});
 	});
 
@@ -83,13 +89,71 @@ const BlogPage: Component<any> = (props) => {
 			});
 	};
 
+	const follow = () => {
+		http
+			.post(`/user/${blog().user.id}/follow`)
+			.then((response) => {
+				setFollowed(1);
+				setFollowCount(followCount() + 1);
+
+				let updatedBlog = blog();
+				updatedBlog.user.followed_by_me = 1;
+				updatedBlog.user.followed_by_count = followCount() + 1;
+				setBlog(updatedBlog);
+			})
+			.catch((error) => {
+				console.log(error.response.status);
+				console.log(error.response.data);
+			});
+	};
+
+	const unfollow = () => {
+		http
+			.delete(`/user/${blog().user.id}/follow`)
+			.then((response) => {
+				setFollowed(0);
+				setFollowCount(followCount() - 1);
+
+				let updatedBlog = blog();
+				updatedBlog.user.followed_by_me = 0;
+				updatedBlog.user.followed_by_count = followCount() - 1;
+				setBlog(updatedBlog);
+			})
+			.catch((error) => {
+				console.log(error.response.status);
+				console.log(error.response.data);
+			});
+	};
+
+	const newComment = () => {
+		console.log('new comment');
+	};
+
 	return (
 		<>
 			<div class="flex flex-col bg-zinc-800 p-10 rounded">
 				<div class="flex flex-row justify-between">
 					<div>
 						<div class="text-3xl font-medium">{blog().title}</div>
-						<button>🤝</button>
+						{followed() ? (
+							<button
+								class="border bg-white text-black px-2 rounded"
+								onClick={() => {
+									unfollow();
+								}}
+							>
+								🤝 {followCount()}
+							</button>
+						) : (
+							<button
+								class="border px-2 rounded"
+								onClick={() => {
+									follow();
+								}}
+							>
+								🤝 {followCount()}
+							</button>
+						)}
 						{liked() ? (
 							<button
 								class="border bg-white text-black px-2 rounded"
@@ -148,6 +212,12 @@ const BlogPage: Component<any> = (props) => {
 					</div>
 				</div>
 				<div class="mt-10">{blog().article}</div>
+				<div class="flex flex-col space-y-5 mt-10">
+					{comments().map((comment: any) => {
+						return <BlogCommentListItemComponent comment={comment} />;
+						//return <div class="bg-zinc-900 p-5 rounded">{comment.text}</div>;
+					})}
+				</div>
 			</div>
 		</>
 	);
