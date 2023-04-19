@@ -6,7 +6,7 @@ import styles from './HomePage.module.css';
 
 import BlogPostListItemComponent from '../components/BlogPostListItemComponent';
 
-const HomePage: Component = () => {
+const BlogsPage: Component = () => {
 	const [blogs, setBlogs] = createSignal([]);
 	const [search, setSearch] = createSignal('');
 
@@ -74,4 +74,4 @@ const HomePage: Component = () => {
 	);
 };
 
-export default HomePage;
+export default BlogsPage;

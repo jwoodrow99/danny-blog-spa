@@ -41,7 +41,10 @@ const App: Component = () => {
 								{authenticated() && (
 									<>
 										<RouteLink class="hover:text-zinc-300" href="/">
-											Home
+											Feed
+										</RouteLink>
+										<RouteLink class="hover:text-zinc-300" href="/blogs">
+											Blogs
 										</RouteLink>
 										<RouteLink class="hover:text-zinc-300" href="/blog/new">
 											New Blog
