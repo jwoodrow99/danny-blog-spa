@@ -43,6 +43,7 @@ const UserPage: Component<any> = (props) => {
 		<>
 			<div class="flex flex-col bg-zinc-900 p-10 rounded">
 				<div class="text-3xl font-medium">{user().email}</div>
+				<button>🤝</button>
 				<div class="text-xs text-zinc-300	mt-3">
 					{new Date(user().created_at).toDateString()}
 				</div>
